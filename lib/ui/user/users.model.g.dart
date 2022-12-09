@@ -7,13 +7,18 @@ part of 'users.model.dart';
 // **************************************************************************
 
 User _$UserFromJson(Map<String, dynamic> json) => User(
-      json['id'] as int,
+      json['id'] as String,
       json['name'] as String,
-      json['cc'] as String,
+      $enumDecode(_$UserTypeEnumMap, json['type']),
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'cc': instance.cc,
+      'type': _$UserTypeEnumMap[instance.type]!,
     };
+
+const _$UserTypeEnumMap = {
+  UserType.SENDER: 'SENDER',
+  UserType.RECEPTOR: 'RECEPTOR',
+};

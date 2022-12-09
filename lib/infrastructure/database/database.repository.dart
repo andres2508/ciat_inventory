@@ -1,23 +1,25 @@
-import 'package:ciat_inventory/infrastructure/database/database.provider.dart';
-import 'package:ciat_inventory/infrastructure/database/persisten.entity.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:ciat_inventory/infrastructure/database/persistent.entity.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class DBRepository<T extends PersistenEntity> {
-  static final _databaseProvider = DBProvider();
+typedef S ItemCreator<S>(Map<String, dynamic> json);
+
+class DBRepository<T extends PersistentEntity> {
+  static final _databaseProvider = FirebaseFirestore.instance;
   String tableName;
+  final ItemCreator<T> creator;
 
-  DBRepository(this.tableName);
+  DBRepository(this.tableName, this.creator);
 
   Future<void> save(T entity) async {
-    final db = await _databaseProvider.database;
-    await db.insert(
-      tableName,
-      entity.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+    final db = await _databaseProvider.collection( this.tableName );
+    await db.doc(entity.getId()).set( entity.toJson() );
   }
 
-  Future<Database> get database async {
-    return await _databaseProvider.database;
+  Future<List<T>> findAll() async {
+    final db = await _databaseProvider.collection( this.tableName );
+    final all = await db.get();
+    return Future.value( all.docs.map((e) => this.creator(e.data()) ).toList() );
   }
+
+  get db => _databaseProvider;
 }

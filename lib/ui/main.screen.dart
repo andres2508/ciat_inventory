@@ -1,4 +1,4 @@
-import 'package:ciat_inventory/ui/user/user.list.screen.dart';
+import 'package:ciat_inventory/ui/login/login.screen.dart';
 import 'package:flutter/material.dart';
 
 class MainScreen extends StatefulWidget {
@@ -13,13 +13,9 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Prueba de Ingreso'),
+        title: Text('Registro de Inventario'),
       ),
-      body: UserListScreen(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.pushNamed(context, 'form'),
-        child: Icon( Icons.add, color: Colors.white, ),
-      ),
+      body: LoginScreen(),
     );
   }
 }
