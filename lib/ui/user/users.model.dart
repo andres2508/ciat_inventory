@@ -11,10 +11,6 @@ class User extends PersistentEntity {
 
   User(this.id, this.name, this.type);
 
-  static User fromMap(Map<String, dynamic> map) {
-    return User(map['id'], map['name'], map['type']);
-  }
-
   @override
   Map<String, dynamic> toJson() => _$UserToJson(this);
 

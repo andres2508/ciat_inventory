@@ -10,9 +10,10 @@ class DBRepository<T extends PersistentEntity> {
 
   DBRepository(this.tableName, this.creator);
 
-  Future<void> save(T entity) async {
+  Future<T> save(T entity) async {
     final db = await _databaseProvider.collection( this.tableName );
     await db.doc(entity.getId()).set( entity.toJson() );
+    return Future.value( entity );
   }
 
   Future<List<T>> findAll() async {
@@ -20,6 +21,4 @@ class DBRepository<T extends PersistentEntity> {
     final all = await db.get();
     return Future.value( all.docs.map((e) => this.creator(e.data()) ).toList() );
   }
-
-  get db => _databaseProvider;
 }

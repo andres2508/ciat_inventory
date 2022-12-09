@@ -44,6 +44,7 @@ dependencies:
   firebase_core: ^2.3.0
   cloud_firestore: ^4.1.0
   uuid: ^3.0.7
+  syncfusion_flutter_datagrid: ^20.3.60
 
 dev_dependencies:
   flutter_test:
